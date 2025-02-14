@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mishra Farm - Fresh Dairy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #1e3a8a;
+      --secondary-blue: #1d4ed8;
+      --light-blue: #dbeafe;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --accent-yellow: #fbbf24;
+      --cream: #fff1f2;
+      --milk-white: #ffffff;
+      --text-color: #1f2937;
+      --shadow: rgba(0, 102, 204, 0.1);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
+      background-color: var(--light-blue);
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: var(--navy-blue);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand, .nav-link {
+      color: var(--milk-white) !important;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-yellow) !important;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(
+        135deg, 
+        var(--gradient-blue-1) 0%,
+        var(--gradient-blue-2) 50%,
+        var(--gradient-blue-3) 100%
+      );
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--dark-blue);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero-text {
+      font-size: 1.2rem;
+      color: var(--dark-blue);
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .hero-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-cow {
+      width: 80%;
+      max-width: 400px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Products Section */
+    .product-section {
+      padding: 80px 0;
+      background: var(--milk-white);
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-img-wrapper {
+      width: 100%;
+      padding-top: 75%; /* 4:3 Aspect Ratio */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-details {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark-blue);
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-bottom: 1rem;
+    }
+
+    .cart-action {
+      position: relative;
+      height: 44px;
+      margin-top: auto;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--dark-blue);
+    }
+
+    .quantity-controls {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-blue);
+      padding: 6px;
+      border-radius: 8px;
+    }
+
+    .quantity-controls.active {
+      display: flex;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      background: var(--dark-blue);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+
+    .qty-btn:hover {
+      background: var(--navy-blue);
+    }
+
+    .qty-number {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    /* Review Section Styles */
+    .review-section {
+      background-color: var(--light-blue);
+    }
+
+    .review-form-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .star-rating {
+      font-size: 1.5rem;
+      color: #ffd700;
+      cursor: pointer;
+    }
+
+    .star-rating i {
+      margin-right: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .star-rating i:hover {
+      transform: scale(1.2);
+    }
+
+    .review-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Animation classes */
+    [data-aos] {
+      opacity: 0;
+      transition-property: opacity, transform;
+    }
+
+    [data-aos].aos-animate {
+      opacity: 1;
+    }
+
+    /* Updated Toast Styles */
+    .toast-container {
+      position: fixed;
+      bottom: 20px; /* Changed from top to bottom */
+      right: 20px;
+      z-index: 9999; /* Ensure it's above the navbar */
+    }
+
+    .toast-notification {
+      background: var(--dark-blue);
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      min-width: 300px;
+    }
+
+    .toast-notification.show {
+      transform: translateX(0);
+    }
+
+    .toast-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toast-icon {
+      color: #4ade80;
+      font-size: 1.25rem;
+    }
+
+    /* Product Card Styles */
+    .product-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .product-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+    }
+
+    .cart-action {
+      margin-top: auto;
+      position: relative;
+      height: 44px;
+    }
+
+    /* Review Section Styles */
+    .review-section {
+      padding: 80px 0;
+      background: var(--light-blue);
+    }
+
+    .review-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 3rem;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Why Us Section Styles */
+    .why-us-section {
+      background: linear-gradient(135deg, var(--light-blue) 0%, white 100%);
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--light-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--primary-blue);
+      font-size: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      background: var(--primary-blue);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .feature-card h4 {
+      color: var(--dark-blue);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    /* Update navbar cart link */
+    .cart-icon {
+      position: relative;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--accent-yellow);
+      color: var(--dark-blue);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    /* Fixed Product Card Styles */
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-img-wrapper {
+      width: 100%;
+      padding-top: 75%; /* 4:3 Aspect Ratio */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .product-description {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-bottom: 1rem;
+    }
+
+    .cart-action {
+      margin-top: auto;
+      position: relative;
+      height: 44px;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--dark-blue);
+    }
+
+    .quantity-controls {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-blue);
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .quantity-controls.active {
+      display: flex;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      background: var(--dark-blue);
+      color: white;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .qty-btn:hover {
+      background: var(--navy-blue);
+    }
+
+    .qty-number {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+  <!-- SVG Assets (Add at the start of body) -->
+  <div style="display: none;">
+    <!-- Hero Cow SVG -->
+    <svg id="hero-cow" viewBox="0 0 512 512" width="100%" height="100%">
+      <path fill="#4A5568" d="M256 96c-33.8 0-61.3-27.5-61.3-61.3S222.2 0 256 0s61.3 27.5 61.3 61.3S289.8 96 256 96z"/>
+      <path fill="#FFFFFF" d="M435.2 128H76.8C34.4 128 0 162.4 0 204.8v204.8C0 451.6 34.4 486 76.8 486h358.4c42.4 0 76.8-34.4 76.8-76.8V204.8c0-42.4-34.4-76.8-76.8-76.8z"/>
+      <path fill="#E2E8F0" d="M435.2 128H256v358h179.2c42.4 0 76.8-34.4 76.8-76.8V204.8c0-42.4-34.4-76.8-76.8-76.8z"/>
+      <circle fill="#4A5568" cx="179.2" cy="281.6" r="51.2"/>
+      <circle fill="#4A5568" cx="332.8" cy="281.6" r="51.2"/>
+      <circle fill="#FFFFFF" cx="204.8" cy="256" r="25.6"/>
+      <circle fill="#FFFFFF" cx="358.4" cy="256" r="25.6"/>
+    </svg>
+
+    <!-- Product Icons -->
+    <svg id="milk-bottle" viewBox="0 0 24 24" width="64" height="64">
+      <path fill="#2563EB" d="M12,2A2,2 0 0,1 14,4V7H10V4A2,2 0 0,1 12,2M12,9C13.11,9 14,9.89 14,11V19C14,20.11 13.11,21 12,21A2,2 0 0,1 10,19V11A2,2 0 0,1 12,9Z"/>
+    </svg>
+
+    <svg id="curd-bowl" viewBox="0 0 24 24" width="64" height="64">
+      <path fill="#1A73E8" d="M2,12V15C2,18.9 5.1,22 9,22H15C18.9,22 22,18.9 22,15V12H2M12,2C8.1,2 5,5.1 5,9H19C19,5.1 15.9,2 12,2Z"/>
+    </svg>
+
+    <svg id="cheese-block" viewBox="0 0 24 24" width="64" height="64">
+      <path fill="#1A73E8" d="M11,19.5H21V18.5H11M11,16.5H21V15.5H11M11,13.5H21V12.5H11M3,19.5H9V18.5H3M3,16.5H9V15.5H3M3,13.5H9V12.5H3M3,9A3,3 0 0,0 6,6H18A3,3 0 0,0 21,9H3Z"/>
+    </svg>
+
+    <svg id="butter-milk" viewBox="0 0 24 24" width="64" height="64">
+      <path fill="#1A73E8" d="M20,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H20"/>
+    </svg>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Mishra Farm</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#products">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#reviews">Reviews</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item ms-2">
+            <a class="nav-link cart-icon" href="cart.html">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content">
+          <h1 class="hero-title">Fresh From Our Farm</h1>
+          <p class="hero-text">Experience the pure goodness of nature with our premium dairy products, delivered fresh to your doorstep.</p>
+          <a href="#products" class="btn btn-primary btn-lg px-4">Explore Products</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-image-container">
+            <img src="cuteCow-removebg-preview.png" alt="Cute Cow" class="hero-cow">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add this after Hero Section -->
+  <section id="why-us" class="why-us-section py-5">
+    <div class="container">
+      <h2 class="text-center mb-5" data-aos="fade-up">Why Choose Mishra Farm?</h2>
+      <div class="row">
+        <!-- Feature 1 -->
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-sun"></i>
+              <i class="fas fa-glass-milk"></i>
+              <i class="fa-thin fa-bottle-water"></i>
+              <i class="fas fa-bottle-water"></i>
+            </div>
+            <h4>Farm Fresh Daily</h4>
+            <p>Our cows are ethically raised in open pastures, ensuring the freshest milk delivered straight from farm to your doorstep daily.</p>
+          </div>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-award"></i>
+            </div>
+            <h4>Quality Guaranteed</h4>
+            <p>Every product undergoes strict quality checks. We're certified by FSSAI and follow international dairy standards.</p>
+          </div>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-truck"></i>
+            </div>
+            <h4>Timely Delivery</h4>
+            <p>Enjoy doorstep delivery before 7 AM every morning. Our dedicated team ensures your dairy needs reach you fresh.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <!-- Feature 4 -->
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-leaf"></i>
+            </div>
+            <h4>100% Natural</h4>
+            <p>No preservatives or additives. We believe in providing pure and natural dairy products for your family's health.</p>
+          </div>
+        </div>
+        
+        <!-- Feature 5 -->
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="500">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h4>Family Tradition</h4>
+            <p>Three generations of dairy farming expertise, serving our community with love and dedication since 1990.</p>
+          </div>
+        </div>
+        
+        <!-- Feature 6 -->
+        <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="600">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h4>24/7 Support</h4>
+            <p>Our customer service team is always ready to assist you. Your satisfaction is our priority.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="products-section py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Our Products</h2>
+      <div class="row">
+        <!-- Product Card (repeat this structure for all products) -->
+        <div class="col-md-3 mb-4" data-aos="fade-up">
+          <div class="product-card" data-product-id="1">
+            <div class="product-img-wrapper">
+              <img src="DALL·E 2025-02-14 15.15.27 - A realistic image of a metal bucket filled with multiple milk bottles. Each bottle has a white cap and a label featuring the 'Mishra Farm' logo in ele.webp" alt="Fresh Milk" class="product-img">
+            </div>
+            <div class="product-content">
+              <h5 class="product-title">Fresh Milk</h5>
+              <p class="product-description">Farm fresh milk, directly from our cows.</p>
+              <div class="product-price">₹50/litre</div>
+              <div class="cart-action">
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </button>
+                <div class="quantity-controls">
+                  <button class="qty-btn minus">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="qty-number">0</span>
+                  <button class="qty-btn plus">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-md-3 mb-4" data-aos="fade-up">
+          <div class="product-card" data-product-id="2">
+            <div class="product-img-wrapper">
+              <img src="DALL·E 2025-02-14 17.14.35 - A realistic image of a cuboidal packet of paneer with a fresh and firm texture. The packet features the 'Mishra Farm' logo in elegant typography with .webp" alt="Product Name" class="product-img">
+            </div>
+            <div class="product-content">
+              <h5 class="product-title">Paneer</h5>
+              <p class="product-description">Product description goes here.</p>
+              <div class="product-price">₹200</div>
+              <div class="cart-action">
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </button>
+                <div class="quantity-controls">
+                  <button class="qty-btn minus">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="qty-number">0</span>
+                  <button class="qty-btn plus">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-md-3 mb-4" data-aos="fade-up">
+          <div class="product-card" data-product-id="3">
+            <div class="product-img-wrapper">
+              <img src="DALL·E 2025-02-14 15.17.31 - A realistic image of a jar of pure golden ghee with a rich, smooth texture. The jar features the 'Mishra Farm' logo in elegant typography with a simpl.webp" alt="Product Name" class="product-img">
+            </div>
+            <div class="product-content">
+              <h5 class="product-title">Ghee</h5>
+              <p class="product-description">Product description goes here.</p>
+              <div class="product-price">₹500</div>
+              <div class="cart-action">
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </button>
+                <div class="quantity-controls">
+                  <button class="qty-btn minus">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="qty-number">0</span>
+                  <button class="qty-btn plus">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-md-3 mb-4" data-aos="fade-up">
+          <div class="product-card" data-product-id="4">
+            <div class="product-img-wrapper">
+              <img src="DALL·E 2025-02-14 15.17.47 - A realistic image of a packet of curd with a fresh and creamy texture. The packet features the 'Mishra Farm' logo in elegant typography with a simple .webp" alt="Product Name" class="product-img">
+            </div>
+            <div class="product-content">
+              <h5 class="product-title">Curd</h5>
+              <p class="product-description">Product description goes here.</p>
+              <div class="product-price">₹100</div>
+              <div class="cart-action">
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </button>
+                <div class="quantity-controls">
+                  <button class="qty-btn minus">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="qty-number">0</span>
+                  <button class="qty-btn plus">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div class="toast-container">
+    <div class="toast-notification" id="toast">
+      <div class="toast-content">
+        <i class="fas fa-check-circle toast-icon"></i>
+        <span class="toast-message"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonial-section py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">What Our Customers Say</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Customer" class="rounded-circle me-3" width="60">
+                <div>
+                  <h5 class="mb-0">Priya Sharma</h5>
+                  <small class="text-muted">Regular Customer</small>
+                </div>
+              </div>
+              <p class="card-text">"The quality of milk is exceptional! It's fresh, creamy, and reminds me of my childhood days."</p>
+              <div class="text-primary">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Customer" class="rounded-circle me-3" width="60">
+                <div>
+                  <h5 class="mb-0">Rahul Verma</h5>
+                  <small class="text-muted">Loyal Customer</small>
+                </div>
+              </div>
+              <p class="card-text">"Their paneer is absolutely amazing. The texture and taste are perfect for all my recipes!"</p>
+              <div class="text-primary">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Customer" class="rounded-circle me-3" width="60">
+                <div>
+                  <h5 class="mb-0">Anjali Gupta</h5>
+                  <small class="text-muted">New Customer</small>
+                </div>
+              </div>
+              <p class="card-text">"The delivery is always on time, and the products are consistently fresh. Great service!"</p>
+              <div class="text-primary">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add Review Section -->
+  <section id="reviews" class="review-section">
+    <div class="container">
+      <h2 class="text-center mb-5" data-aos="fade-up">Customer Reviews</h2>
+      
+      <!-- Review Form -->
+      <div class="review-form" data-aos="fade-up">
+        <h4 class="mb-4">Write a Review</h4>
+        <form id="reviewForm" onsubmit="submitReview(event)">
+          <div class="mb-3">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="reviewName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Select Product</label>
+            <select class="form-control" id="reviewProduct" required>
+              <option value="">Choose a product</option>
+              <option value="Fresh Milk">Fresh Milk</option>
+              <option value="Curd">Curd</option>
+              <option value="Paneer">Paneer</option>
+              <option value="Buttermilk">Buttermilk</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Rating</label>
+            <div class="star-rating">
+              <i class="far fa-star" data-rating="1"></i>
+              <i class="far fa-star" data-rating="2"></i>
+              <i class="far fa-star" data-rating="3"></i>
+              <i class="far fa-star" data-rating="4"></i>
+              <i class="far fa-star" data-rating="5"></i>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Your Review</label>
+            <textarea class="form-control" id="reviewText" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+      </div>
+
+      <!-- Reviews Display -->
+      <div class="reviews-grid" id="reviewsContainer">
+        <!-- Reviews will be added here dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h3 class="logo mb-4">Mishra Farm</h3>
+          <p>Delivering fresh dairy products since 1990. Quality you can trust, taste you'll love.</p>
+        </div>
+        <div class="col-md-4">
+          <h5 class="mb-4">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#home" class="text-light text-decoration-none mb-2 d-block">Home</a></li>
+            <li><a href="#products" class="text-light text-decoration-none mb-2 d-block">Products</a></li>
+            <li><a href="#testimonials" class="text-light text-decoration-none mb-2 d-block">Testimonials</a></li>
+            <li><a href="#contact" class="text-light text-decoration-none mb-2 d-block">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="mb-4">Contact Us</h5>
+          <p><i class="fas fa-phone me-2"></i> +91 1234567890</p>
+          <p><i class="fas fa-envelope me-2"></i> contact@mishrafarm.com</p>
+          <p><i class="fas fa-map-marker-alt me-2"></i> 123 Dairy Road, Mumbai</p>
+          <div class="social-links mt-4">
+            <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-light me-3"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || {};
+      updateCartDisplay();
+
+      // Add click handlers to all cart buttons
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const card = this.closest('.product-card');
+          const controls = card.querySelector('.quantity-controls');
+          const qtyNumber = controls.querySelector('.qty-number');
+          
+          this.style.display = 'none';
+          controls.style.display = 'flex';
+          qtyNumber.textContent = '1'; // Start with 1 when adding to cart
+          
+          const productId = card.dataset.productId;
+          const name = card.querySelector('.product-title').textContent;
+          const price = parseFloat(card.querySelector('.product-price').textContent.replace('₹', ''));
+          
+          updateCart(productId, name, price, 1);
+        });
+      });
+
+      // Quantity control handlers
+      document.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const isPlus = this.classList.contains('plus');
+          const controls = this.closest('.quantity-controls');
+          const qtyElement = controls.querySelector('.qty-number');
+          const card = this.closest('.product-card');
+          const addBtn = card.querySelector('.add-to-cart-btn');
+          
+          let qty = parseInt(qtyElement.textContent);
+          
+          if (isPlus) {
+            qty = Math.min(qty + 1, 10); // Maximum 10 items
+          } else {
+            qty = Math.max(qty - 1, 0); // Minimum 0 items
+          }
+          
+          qtyElement.textContent = qty;
+          
+          if (qty === 0) {
+            controls.style.display = 'none';
+            addBtn.style.display = 'block';
+            removeFromCart(card.dataset.productId);
+          } else {
+            const productId = card.dataset.productId;
+            const name = card.querySelector('.product-title').textContent;
+            const price = parseFloat(card.querySelector('.product-price').textContent.replace('₹', ''));
+            updateCart(productId, name, price, qty);
+          }
+        });
+      });
+
+      // Sync quantities from cart on page load
+      Object.entries(cart).forEach(([productId, item]) => {
+        updateProductDisplay(productId, item.quantity);
+      });
+
+      // Initialize AOS
+      AOS.init({
+        duration: 1000,
+        once: true
+      });
+
+      // Star Rating System
+      document.querySelectorAll('.star-rating i').forEach(star => {
+        star.addEventListener('click', function() {
+          const rating = this.dataset.rating;
+          updateStars(rating);
+        });
+      });
+
+      function updateStars(rating) {
+        document.querySelectorAll('.star-rating i').forEach(star => {
+          const starRating = star.dataset.rating;
+          if (starRating <= rating) {
+            star.classList.remove('far');
+            star.classList.add('fas');
+          } else {
+            star.classList.remove('fas');
+            star.classList.add('far');
+          }
+        });
+      }
+
+      // Review Submission
+      function submitReview(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('reviewName').value;
+        const product = document.getElementById('reviewProduct').value;
+        const rating = document.querySelectorAll('.star-rating .fas').length;
+        const text = document.getElementById('reviewText').value;
+        
+        const review = {
+          name,
+          product,
+          rating,
+          text,
+          date: new Date().toLocaleDateString()
+        };
+
+        // Save review to localStorage
+        const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+        reviews.push(review);
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+
+        // Add review to display
+        addReviewToDisplay(review);
+
+        // Reset form
+        event.target.reset();
+        updateStars(0);
+        
+        // Show success message
+        showToast('Review submitted successfully!');
+      }
+
+      function addReviewToDisplay(review) {
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        const reviewElement = document.createElement('div');
+        reviewElement.className = 'col-md-4';
+        reviewElement.setAttribute('data-aos', 'fade-up');
+        
+        reviewElement.innerHTML = `
+          <div class="review-card">
+            <div class="d-flex justify-content-between mb-2">
+              <h5 class="mb-0">${review.name}</h5>
+              <small class="text-muted">${review.date}</small>
+            </div>
+            <div class="mb-2">
+              <strong>${review.product}</strong>
+            </div>
+            <div class="star-rating mb-2">
+              ${Array(5).fill().map((_, i) => 
+                `<i class="${i < review.rating ? 'fas' : 'far'} fa-star"></i>`
+              ).join('')}
+            </div>
+            <p class="mb-0">${review.text}</p>
+          </div>
+        `;
+
+        reviewsContainer.prepend(reviewElement);
+        AOS.refresh();
+      }
+
+      // Load existing reviews on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+        reviews.forEach(review => addReviewToDisplay(review));
+      });
+
+      // Add this function to listen for cart updates
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'cart') {
+          const cart = JSON.parse(e.newValue || '{}');
+          // Update all product displays
+          Object.entries(cart).forEach(([productId, item]) => {
+            updateProductDisplay(productId, item.quantity);
+          });
+        }
+      });
+
+      function updateProductDisplay(productId, quantity) {
+        const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+        if (!productCard) return;
+
+        const addBtn = productCard.querySelector('.add-to-cart-btn');
+        const controls = productCard.querySelector('.quantity-controls');
+        const qtyNumber = controls.querySelector('.qty-number');
+
+        if (quantity === 0) {
+          controls.style.display = 'none';
+          addBtn.style.display = 'block';
+        } else {
+          addBtn.style.display = 'none';
+          controls.style.display = 'flex';
+          qtyNumber.textContent = quantity;
+        }
+      }
+
+      function updateCart(productId, name, price, quantity) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || {};
+        const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+        const imageUrl = productCard.querySelector('.product-img').src;
+        
+        if (quantity > 0) {
+          cart[productId] = { 
+            name, 
+            price, 
+            quantity,
+            imageUrl // Store the image URL
+          };
+        } else {
+          delete cart[productId];
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay();
+        showToast(quantity > 0 ? `Updated: ${name} (${quantity})` : `Removed: ${name}`);
+      }
+
+      function removeFromCart(productId) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || {};
+        const productName = cart[productId]?.name;
+        delete cart[productId];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay();
+        showToast(`Removed ${productName} from cart`);
+      }
+
+      function updateCartDisplay() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || {};
+        const cartCount = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = cartCount;
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        const messageEl = toast.querySelector('.toast-message');
+        messageEl.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>
